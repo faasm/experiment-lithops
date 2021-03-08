@@ -6,12 +6,7 @@ from subprocess import check_output, run
 RESOURCE_GROUP = "faasm"
 LOCATION = "eastus"
 
-
-@task
-def storage_account_get_key(ctx, name):
-    """
-    Get key1 to access the storage account
-    """
+def _do_storage_account_get_key(name):
     _az_cmd = [
         "az",
         "storage account keys list",
@@ -24,7 +19,15 @@ def storage_account_get_key(ctx, name):
 
     _out = check_output(az_cmd, shell=True).decode("utf-8")
     out = literal_eval(_out)[0]["value"]
-    print(out)
+    return out
+
+@task
+def storage_account_get_key(ctx, name):
+    """
+    Get key1 to access the storage account
+    """
+    key = _do_storage_account_get_key(name)
+    print(key)
 
 @task
 def storage_account_create(ctx, name, sku="Standard_LRS"):
@@ -54,6 +57,44 @@ def storage_account_delete(ctx, name):
         "storage account delete",
         "--resource-group {}".format(RESOURCE_GROUP),
         "--name {}".format(name),
+    ]
+
+    az_cmd = " ".join(_az_cmd)
+    print(az_cmd)
+
+    run(az_cmd, shell=True, check=True)
+
+@task
+def storage_container_create(ctx, name):
+    """
+    Delete storage account
+    """
+    _az_cmd = [
+        "az",
+        "storage container create",
+        "--resource-group {}".format(RESOURCE_GROUP),
+        "--account-name {}".format(name),
+        "--account-key {}".format(_do_storage_account_get_key(name)),
+        "--name storage",
+    ]
+
+    az_cmd = " ".join(_az_cmd)
+    print(az_cmd)
+
+    run(az_cmd, shell=True, check=True)
+
+@task
+def storage_container_delete(ctx, name):
+    """
+    Delete storage account
+    """
+    _az_cmd = [
+        "az",
+        "storage container delete",
+        "--resource-group {}".format(RESOURCE_GROUP),
+        "--account-name {}".format(name),
+        "--account-key {}".format(_do_storage_account_get_key(name)),
+        "--name storage",
     ]
 
     az_cmd = " ".join(_az_cmd)
