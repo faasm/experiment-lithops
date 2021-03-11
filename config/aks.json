@@ -1,0 +1,17 @@
+"config": {
+    "lithops": {
+            "storage": "azure_blob",
+            "storage_bucket": "storage",
+        },
+    "serverless": {
+        "backend": "knative",
+    },
+    "knative": {
+        "kubecfg_path": "/home/csegarra/.kube/config",
+        "istio_endpoint": "http://20.42.32.116:80",
+    },
+    "azure_blob": {
+        "storage_account": "lithops",
+        "storage_account_key": "tv5TUiLewAz2u5ktt/Ff7PaR1ViMgxsoXY5TMtmWm94kLveElqrKj1g5cZKVGZsU6nqmakWmxUxscWHWpz2ndA==",
+    },
+}

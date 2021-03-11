@@ -4,7 +4,7 @@ from subprocess import call
 
 from invoke import task
 
-FAASM_VERSION = "0.5.7"
+FAASM_VERSION = "0.5.9"
 PROJ_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 K8S_DIR = join(PROJ_ROOT, "deploy", "k8s")
 BARE_METAL_CONF = join(K8S_DIR, "bare-metal")
@@ -60,9 +60,7 @@ KNATIVE_ENV = {
     "NO_SCHEDULER": "0",  # Turn on/ off Faasm scheduler
     "MAX_FAASLETS_PER_FUNCTION": "6",  # This is per-host. We want one per core
     "MAX_FAASLETS": "40",  # Per-host threads available (across all functions)
-    "BOUND_TIMEOUT": str(
-        THIRTY_SECS
-    ),  # How long a bound worker sticks around for
+    "BOUND_TIMEOUT": str(THIRTY_SECS),  # How long a bound worker sticks around for
     "UNBOUND_TIMEOUT": str(
         10 * ONE_MIN
     ),  # How long an unbound worker sticks around for
@@ -121,7 +119,7 @@ def deploy(ctx, replicas=DEFAULT_REPLICAS, local=False):
     extra_env = {
         "FUNCTION_STORAGE": "fileserver",
         "FILESERVER_URL": "http://upload:8002",
-        "LD_LIBRARY_PATH": "/build/faasm/third-party/lib:/usr/local/lib"
+        "LD_LIBRARY_PATH": "/build/faasm/third-party/lib:/usr/local/lib",
     }
 
     # Deploy the other K8s stuff (e.g. redis)
@@ -174,9 +172,7 @@ def _delete_knative_fn(name, hard):
     else:
         # Delete the pods (they'll respawn)
         label = "serving.knative.dev/service={}".format(func_name)
-        cmd = "kubectl -n faasm delete pods -l {} --wait=false --now".format(
-            label
-        )
+        cmd = "kubectl -n faasm delete pods -l {} --wait=false --now".format(label)
         call(cmd, shell=True)
 
 
@@ -208,9 +204,7 @@ def _deploy_knative_fn(
         {
             "--min-scale={}".format(replicas),
             "--max-scale={}".format(replicas),
-            "--concurrency-limit={}".format(concurrency)
-            if concurrency
-            else "",
+            "--concurrency-limit={}".format(concurrency) if concurrency else "",
         }
     )
 
@@ -247,6 +241,7 @@ def install(ctx):
         ["knative/serving", "serving-core.yaml"],
         ["knative/net-istio", "istio.yaml"],
         ["knative/net-istio", "net-istio.yaml"],
+        ["knative/serving", "serving-default-domain.yaml"],
     ]
 
     for s in specs:
@@ -255,6 +250,7 @@ def install(ctx):
                 s[0], KNATIVE_VERSION, s[1]
             )
         )
+
 
 @task
 def uninstall(ctx):

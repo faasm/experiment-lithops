@@ -1,10 +1,9 @@
 # PyWren Experiments
 
-## Install knative
+## Install lithops
 
 ```bash
-inv knative.install
-kubectl get pods -n knative-serving
+pip3 install git+https://github.com/lithops-cloud/lithops
 ```
 
 ## Run lithops
@@ -18,9 +17,11 @@ lithops clean --mode serverless --backend knative
 
 ```
 inv knative.deploy --replicas=<NUM_REPLICAS>
+kubectl get pods -n faasm # wait until all in "Running" state
+inv faasm.upload demo hello # TODO
+inv faasm.invoke demo hello
 ```
-Once everything has started up, you can populate your `~/faasm/faasm.ini` file
-to avoid typing TODO
+
 
 ## Troubleshooting
 
