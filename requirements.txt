@@ -1,0 +1,6 @@
+azure
+lithops
+lithops[azure]
+pynvim
+setuptools_rust
+wheel
