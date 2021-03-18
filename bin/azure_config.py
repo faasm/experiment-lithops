@@ -33,12 +33,14 @@ def update_config():
     with open(CONFIG_FILE) as f:
         doc = yaml.load(f)
 
+    key = get_key()
+    endpoint = get_endpoint()
     print("Detected Istio Ingress endpoint: https://{}:80".format(endpoint))
 
     doc["azure_blob"]["storage_account_key"] = key
     doc["knative"]["istio_endpoint"] = "http://{}:80".format(endpoint)
 
-    with open(CONFIG_FILE) as f:
+    with open(CONFIG_FILE, "w") as f:
         yaml.dump(doc, f)
 
 
