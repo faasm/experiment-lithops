@@ -16,16 +16,6 @@ To clean:
 lithops clean --mode serverless --backend knative
 ```
 
-## Run Faasm
-
-```
-inv knative.deploy --replicas=<NUM_REPLICAS>
-kubectl get pods -n faasm # wait until all in "Running" state
-inv faasm.upload demo hello # TODO
-inv faasm.invoke demo hello
-```
-
-
 ## Troubleshooting
 
 If the cluster becomes unstable and missconfigured, delete it from the portal

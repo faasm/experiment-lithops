@@ -1,6 +1,6 @@
-azure
-lithops
-lithops[azure]
-pynvim
-setuptools_rust
 wheel
+azure-storage-blob
+azure-storage-queue
+
+git+https://github.com/lithops-cloud/lithops
+
