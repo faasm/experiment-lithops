@@ -1,1 +1,4 @@
-config/aks.yaml
+azure_blob: {storage_account: lithops, storage_account_key: tv5TUiLewAz2u5ktt/Ff7PaR1ViMgxsoXY5TMtmWm94kLveElqrKj1g5cZKVGZsU6nqmakWmxUxscWHWpz2ndA==}
+knative: {istio_endpoint: 'http://52.224.128.238:80', kubecfg_path: /home/csegarra/.kube/config}
+lithops: {storage: azure_blob, storage_bucket: storage}
+serverless: {backend: knative}
