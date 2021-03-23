@@ -14,4 +14,4 @@ https://github.com/lithops-cloud/lithops).
 
 ## TODO
 * [ ] Automated plot generation (through tasks)
-
+* [ ] Fix lithops pip install to a specific tag when released upstream
