@@ -1,6 +1,6 @@
-# PyWren Experiments
+# Faasm integration with Lithops
 
-This experiment runs a PyWren benchmark through [Lithops cloud](
+In this experiment we add Faasm as a new runtime in [Lithops cloud](
 https://github.com/lithops-cloud/lithops).
 
 ## Quick start
@@ -11,7 +11,3 @@ https://github.com/lithops-cloud/lithops).
 ./bin/build_native.sh
 ./run/native.sh
 ```
-
-## TODO
-* [ ] Automated plot generation (through tasks)
-* [ ] Fix lithops pip install to a specific tag when released upstream
